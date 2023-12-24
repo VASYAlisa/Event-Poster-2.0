@@ -64,7 +64,7 @@
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="LOG IN"
+                    <TextBlock Text="ВХОД"
                                Foreground="DarkGray"
                                FontSize="18"
                                FontFamily="Monsterrat"
@@ -154,7 +154,7 @@
                                FontFamily="Monsterrat"
                                HorizontalAlignment="Center"/>
 
-                    <TextBlock Text="Username"
+                    <TextBlock Text="Имя пользователя"
                                Foreground="DarkGray"
                                FontSize="15"
                                FontWeight="Medium"
@@ -182,7 +182,7 @@
 
                     </TextBox>
 
-                    <TextBlock Text="Password"
+                    <TextBlock Text="Пароль"
                                Foreground="DarkGray"
                                FontSize="15"
                                FontWeight="Medium"
@@ -221,7 +221,7 @@
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                             Style="{StaticResource loginButton}"
                             BorderThickness="0"
-                            Content="LOG IN"
+                            Content="ВОЙТИ"
                             Foreground="White"
                             FontSize="16"
                             FontFamily="Monsterrat"
@@ -235,7 +235,7 @@
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                             Style="{StaticResource loginButton}"
                             BorderThickness="0"
-                            Content="REGISTRATION"
+                            Content="ЗАРЕГИСТРИРОВАТЬСЯ"
                             Foreground="White"
                             FontSize="16"
                             FontFamily="Monsterrat"

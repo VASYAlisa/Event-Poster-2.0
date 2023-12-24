@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Event_Poster_2._0.Utilities
 {
-    internal class RelayCommand : ICommand
+    class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Func<object, bool> _canExecute;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Event_Poster_2._0.Model.DAL
 {
@@ -15,8 +10,7 @@ namespace Event_Poster_2._0.Model.DAL
         public string Password { get; set; }
 
         public int UserTypeId { get; set; }
-        //[ValidateNever]
-        [DisplayName("Тип пользователя")]
+        
         public UserType UserType { get; set; }
     }
 }

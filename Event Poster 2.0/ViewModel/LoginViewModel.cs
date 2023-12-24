@@ -1,4 +1,5 @@
 ﻿using Event_Poster_2._0.Model.Data;
+using Event_Poster_2._0.Model.Repositories;
 using Event_Poster_2._0.Utilities;
 using Event_Poster_2._0.View;
 using System;
@@ -13,7 +14,8 @@ namespace Event_Poster_2._0.ViewModel
 {
     class LoginViewModel:ViewModelBase
     {
-        EventContext context;
+        //EventContext context;
+        DbRepos context;
         //Fields
         private string _username;
         private string _password;
@@ -82,7 +84,8 @@ namespace Event_Poster_2._0.ViewModel
         //Constructor
         public LoginViewModel()
         {
-            context = new EventContext();
+            //context = new EventContext();
+            context= new DbRepos();
 
             LoginCommand = new RelayCommand(Login);
             RegistrationCommand  = new RelayCommand(Registration);
@@ -98,12 +101,14 @@ namespace Event_Poster_2._0.ViewModel
 
         private void Login(object obj)
         {
-            var user = context.Users.Where(u => u.Password == Password && u.UserName == Username).FirstOrDefault();
+            var user = context.Users.GetList().Where(u => u.Password == Password && u.UserName == Username).FirstOrDefault();
             if (user != default)
             {
                 if (user.UserTypeId == 2)
                 {
                     var clientWindow = new ClientWindow();
+                    var viewModel = new UserViewModel(user);
+                    clientWindow.DataContext = viewModel;
                     clientWindow.Show();
                 }
                 else if (user.UserTypeId == 1)

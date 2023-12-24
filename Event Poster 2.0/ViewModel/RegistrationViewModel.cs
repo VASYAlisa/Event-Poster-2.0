@@ -1,5 +1,6 @@
 ﻿using Event_Poster_2._0.Model.DAL;
 using Event_Poster_2._0.Model.Data;
+using Event_Poster_2._0.Model.Repositories;
 using Event_Poster_2._0.Utilities;
 using Event_Poster_2._0.View;
 using System;
@@ -17,6 +18,7 @@ namespace Event_Poster_2._0.ViewModel
         private string _name;
         private string _username;
         private string _password;
+        private string _email;
         private string _errorMessage;
 
         public string Name
@@ -55,6 +57,12 @@ namespace Event_Poster_2._0.ViewModel
                 OnPropertyChanged(nameof(Password));
             }
         }
+
+        public string Email
+        {
+            get { return _email;}
+            set { _email= value; OnPropertyChanged(nameof(Email));}
+        }
         public string ErrorMessage
         {
             get
@@ -70,21 +78,22 @@ namespace Event_Poster_2._0.ViewModel
 
         public ICommand RegistrCommand { get; set; }
 
-        EventContext context;
+        DbRepos context;
 
         public RegistrationViewModel()
         {
-            context = new EventContext();
+            context = new DbRepos();
+
             RegistrCommand = new RelayCommand(Registration);
         }
 
         private void Registration(object obj)
         {
-            if (Name == null || Password == null || Username == null)
+            if (Name == null || Password == null || Username == null || Email == null)
                 ErrorMessage = "Не все поля заполнены";
             else
             {
-                if (Username == context.Users.Where(i => i.UserName == Username).Select(i => i.UserName).FirstOrDefault())
+                if (Username == context.Users.GetList().Where(i => i.UserName == Username).Select(i => i.UserName).FirstOrDefault())
                     ErrorMessage = "Имя пользователя занято";
                 else
                 {
@@ -93,15 +102,18 @@ namespace Event_Poster_2._0.ViewModel
                     user.UserName = Username;
                     user.Password = Password;
                     user.UserTypeId = 2;
-                    context.Users.Add(user);
-                    context.SaveChanges();
+                    context.Users.Create(user);
+                    context.Save();
 
                     Participant participant = new Participant();
                     participant.Name = Name;
-                    participant.UserId = context.Users.Where(i => i.UserName == user.UserName).Select(i => i.Id).First();
-                    context.Participants.Add(participant);
-                    context.SaveChanges();
+                    participant.Email = Email;
+                    participant.UserId = context.Users.GetList().Where(i => i.UserName == user.UserName).Select(i => i.Id).First();
+                    context.Participants.Create(participant);
+                    context.Save();
                     var clientWindow = new ClientWindow();
+                    var viewModel = new UserViewModel(user);
+                    clientWindow.DataContext = viewModel;
                     clientWindow.Show();
                     if (obj is Window window) window.Close();
                 }

@@ -4,14 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:local="clr-namespace:Event_Poster_2._0.View"
+        xmlns:vm="clr-namespace:Event_Poster_2._0.ViewModel" 
         mc:Ignorable="d"
         Title="ClientWindow" Height="550" Width="800"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         AllowsTransparency="True">
+
     
+
     <Border CornerRadius="15" BorderThickness="2">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
@@ -27,7 +29,7 @@
 
             <Grid.ColumnDefinitions>
                 <!--Navigation Menu-->
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="220"/>
                 <!--Content Section-->
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -54,41 +56,51 @@
 
                     <!--menu Buttons-->
                     <RadioButton Style="{StaticResource menuButton}"
-                                     Tag="{StaticResource color1}">
+                                 Tag="{StaticResource color1}"
+                                 Command="{Binding HomeCommand}">
+                        
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="Home Page" Style="{StaticResource menuButtonText}"/>
+                            <TextBlock Text="Профиль" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
 
                     </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}"
-                                     Tag="{StaticResource color2}">
+                                 Tag="{StaticResource color2}"
+                                 Command="{Binding CatalogCommand}">
+                        
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="PeopleLine" Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="Events" Style="{StaticResource menuButtonText}"/>
+                            <TextBlock Text="Поиск событий" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
 
                     </RadioButton>
+                    
                     <RadioButton Style="{StaticResource menuButton}"
-                                     Tag="{StaticResource color4}">
+                                 Tag="{StaticResource color4}"
+                                 Command="{Binding FavoritesTabCommand}">
+                        
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Heart" Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="WishList" Style="{StaticResource menuButtonText}"/>
+                            <TextBlock Text="Избранное" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
 
                     </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color4}"
-                                 Margin="0,120,0,0"
+                                 VerticalAlignment="Bottom"
+                                 
                                  Click="RadioButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="DoorOpen" Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="Exit" Style="{StaticResource menuButtonText}"/>
+                            <TextBlock Text="Выход" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
 
                     </RadioButton>
+
+
 
                 </StackPanel>
             </Border>
@@ -151,7 +163,7 @@
 
                         <!--Caption-->
 
-                        <StackPanel Grid.Column="0"
+                        <!--<StackPanel Grid.Column="0"
                                         Orientation="Horizontal"
                                         VerticalAlignment="Center">
                             <fa:IconImage Icon="Home"
@@ -166,21 +178,21 @@
                                            FontWeight="Medium"
                                            VerticalAlignment="Center"/>
 
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <!--User options-->
-
-                        <StackPanel Grid.Column="1"
+                        <!--<StackPanel Grid.Column="1"
                                         Orientation="Horizontal" FlowDirection="RightToLeft"
                                         VerticalAlignment="Center"
                                         Margin="0,0,10,0">
-                            <Button>
+                            
 
-                            </Button>
-
-                        </StackPanel>
+                        </StackPanel>-->
 
                     </Grid>
+                    <Border Grid.Row="2" CornerRadius="5" Margin="20,0,20,20">
+                        <ContentControl x:Name="Pages" Content="{Binding CurrentView}" />
+                    </Border>
                 </Grid>
 
 

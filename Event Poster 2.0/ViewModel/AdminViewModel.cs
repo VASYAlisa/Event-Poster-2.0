@@ -1,5 +1,5 @@
 ﻿using Event_Poster_2._0.Utilities;
-using Event_Poster_2._0.ViewModel.PagesVM;
+using Event_Poster_2._0.ViewModel.AdminPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +22,19 @@ namespace Event_Poster_2._0.ViewModel
         public ICommand EventsCommand { get; set; }
         public ICommand CitiesCommand { get; set; }
         public ICommand CategoriesCommand { get; set; }
-        //public ICommand ReportsCommand { get; set; }
+        public ICommand ReportsCommand { get; set; }
 
         private void Events(object obj) => CurrentView = new EventsViewModel();
         private void Categories(object obj) => CurrentView = new CategoriesViewModel();
         private void Cities(object obj) => CurrentView = new CitiesViewModel();
-        //private void Reports(object obj) => CurrentView = new ReportsViewModel();
+        private void Reports(object obj) => CurrentView = new ReportsViewModel();
 
         public AdminViewModel()
         {
             EventsCommand = new RelayCommand(Events);
             CategoriesCommand = new RelayCommand(Categories);
             CitiesCommand = new RelayCommand(Cities);
-            
-            //ReportsCommand = new RelayCommand(Reports);
+            ReportsCommand = new RelayCommand(Reports);
 
             CurrentView = new EventsViewModel();
         }

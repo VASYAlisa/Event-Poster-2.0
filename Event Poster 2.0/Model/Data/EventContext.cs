@@ -15,8 +15,11 @@ namespace Event_Poster_2._0.Model.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UserType> UsersTypes { get; set; }
 
+        public DbSet<ParticipationEvent> ParticipationEvents { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             optionsBuilder.UseSqlServer(@"Server=VASILISA\SQLEXPRESS; Initial catalog=EventPoster2; Trusted_Connection=True; TrustServerCertificate=True;");
         }
     }

@@ -22,6 +22,21 @@ namespace Event_Poster_2._0.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CategoryEvent", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "EventsId");
+
+                    b.HasIndex("EventsId");
+
+                    b.ToTable("CategoryEvent");
+                });
+
             modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -65,11 +80,7 @@ namespace Event_Poster_2._0.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Author")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -78,8 +89,10 @@ namespace Event_Poster_2._0.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -92,8 +105,6 @@ namespace Event_Poster_2._0.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("CityId");
 
@@ -111,6 +122,7 @@ namespace Event_Poster_2._0.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -121,6 +133,8 @@ namespace Event_Poster_2._0.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Participants");
                 });
@@ -136,13 +150,7 @@ namespace Event_Poster_2._0.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ParticipantId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ParticipationId")
                         .HasColumnType("int");
 
                     b.Property<int>("Price")
@@ -152,9 +160,30 @@ namespace Event_Poster_2._0.Migrations
 
                     b.HasIndex("ParticipantId");
 
+                    b.ToTable("Participations");
+                });
+
+            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.ParticipationEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParticipationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
                     b.HasIndex("ParticipationId");
 
-                    b.ToTable("Participations");
+                    b.ToTable("ParticipationEvents");
                 });
 
             modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Status", b =>
@@ -221,31 +250,49 @@ namespace Event_Poster_2._0.Migrations
                     b.ToTable("UsersTypes");
                 });
 
-            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Event", b =>
+            modelBuilder.Entity("CategoryEvent", b =>
                 {
-                    b.HasOne("Event_Poster_2._0.Model.DAL.Category", "Category")
+                    b.HasOne("Event_Poster_2._0.Model.DAL.Category", null)
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Event_Poster_2._0.Model.DAL.City", "City")
+                    b.HasOne("Event_Poster_2._0.Model.DAL.Event", null)
                         .WithMany()
+                        .HasForeignKey("EventsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Event", b =>
+                {
+                    b.HasOne("Event_Poster_2._0.Model.DAL.City", "City")
+                        .WithMany("Events")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Event_Poster_2._0.Model.DAL.Status", "Status")
-                        .WithMany()
+                        .WithMany("Events")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-
                     b.Navigation("City");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Participant", b =>
+                {
+                    b.HasOne("Event_Poster_2._0.Model.DAL.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Participation", b =>
@@ -256,11 +303,24 @@ namespace Event_Poster_2._0.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Event_Poster_2._0.Model.DAL.Participation", null)
-                        .WithMany("Participations")
+                    b.Navigation("Participant");
+                });
+
+            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.ParticipationEvent", b =>
+                {
+                    b.HasOne("Event_Poster_2._0.Model.DAL.Event", "Event")
+                        .WithMany("ParticipationEvents")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Event_Poster_2._0.Model.DAL.Participation", "Participation")
+                        .WithMany("ParticipationEvents")
                         .HasForeignKey("ParticipationId");
 
-                    b.Navigation("Participant");
+                    b.Navigation("Event");
+
+                    b.Navigation("Participation");
                 });
 
             modelBuilder.Entity("Event_Poster_2._0.Model.DAL.User", b =>
@@ -274,6 +334,16 @@ namespace Event_Poster_2._0.Migrations
                     b.Navigation("UserType");
                 });
 
+            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.City", b =>
+                {
+                    b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Event", b =>
+                {
+                    b.Navigation("ParticipationEvents");
+                });
+
             modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Participant", b =>
                 {
                     b.Navigation("Participations");
@@ -281,7 +351,12 @@ namespace Event_Poster_2._0.Migrations
 
             modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Participation", b =>
                 {
-                    b.Navigation("Participations");
+                    b.Navigation("ParticipationEvents");
+                });
+
+            modelBuilder.Entity("Event_Poster_2._0.Model.DAL.Status", b =>
+                {
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

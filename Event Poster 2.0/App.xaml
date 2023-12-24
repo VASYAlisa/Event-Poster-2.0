@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="Utilities/DataTemplate.xaml" />
                 <ResourceDictionary Source="/View/Styles/Colors.xaml"/>
                 <ResourceDictionary Source="/View/Styles/Buttons.xaml"/>
+                <ResourceDictionary Source="/View/Styles/Text.xaml"/>
+                <ResourceDictionary Source="/View/Styles/DataTable.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         

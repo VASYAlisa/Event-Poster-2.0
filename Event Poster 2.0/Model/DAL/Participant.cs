@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+
 
 
 namespace Event_Poster_2._0.Model.DAL
@@ -8,16 +8,18 @@ namespace Event_Poster_2._0.Model.DAL
     {
         public int Id { get; set; }
 
-        [DisplayName("Имя")]
+        
         public string Name { get; set; }
 
-        [DisplayName("E-mail")]
-        public string? Email { get; set; }
+        
+        public string Email { get; set; }
 
         public int UserId { get; set; }
 
+        public User User { get; set; }
 
-        //[ValidateNever]
-        public List<Participation> Participations { get; set; } = new();
+
+        
+        public ObservableCollection<Participation> Participations { get; set; } = new();
     }
 }

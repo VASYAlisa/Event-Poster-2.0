@@ -1,0 +1,63 @@
+﻿<Window x:Class="Event_Poster_2._0.View.UserWindows.CreateParticipation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:local="clr-namespace:Event_Poster_2._0.View.UserWindows"
+        mc:Ignorable="d"
+        Title="CreateParticipation" WindowStyle="None"
+        MouseDown="Window_MouseDown"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True" Background="Transparent"
+        Height="380" Width="400"
+        FontFamily="#Bahnschrift"
+        FontWeight="Light">
+    
+    
+    <Border Background="White"
+           CornerRadius="10"
+           BorderBrush="#31393C"
+           BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnClose"
+                       Grid.Column="1"
+                       Style="{StaticResource controlButton}"
+                       Tag="{StaticResource color4}"
+                       Click="btnClose_Click">
+                    <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Margin="0 15 0 0" 
+                           TextAlignment="Justify" Width="250" 
+                           FontWeight="ExtraLight" TextWrapping="Wrap" 
+                           Text="{Binding WishEvents}" HorizontalAlignment="Center" />
+                <TextBlock Grid.Row="1" Margin="0 3 0 0" FontWeight="Normal" 
+                           FontSize="14" 
+                           Text="{Binding TotalPrice, StringFormat= '0 ₽'}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Margin="0 30 0 30" Width="180" Content="Сделать заказ" Grid.Row="5" 
+                        Command="{Binding CreateParticipationCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
